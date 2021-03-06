@@ -8,7 +8,6 @@ import datetime
 import json
 #import pickle
 #import numpy as np
-import matplotlib as plt
 
 #NOTE that "post" now basically refers to an "instance" of the form sending data in, plus the graph that is made from that data (with times).
 
@@ -35,7 +34,7 @@ force_in = form['force'].value
 
 
 #Define the mechanism to save the sent-in data to a file:
-def save_postdata(post, filename):
+def save_data(post, filename):
     data = {}
     data['name'] = post.name
     data['temperature'] = post.temperature
@@ -45,12 +44,13 @@ def save_postdata(post, filename):
     data['accy'] = post.accy
     data['accz'] = post.accz
     data['force'] = post.force
+    data['graph'] = post.graph
     print(data)
     with open(filename, 'w') as outfile:  # Overwrites any existing file.
         json.dump(data, outfile, sort_keys = True)
 
-#Class to generate a post, with a bunch of graphs plus and some data:
-class genPost:
+#Class to generate a graph and its data:
+class genGraph:
     name = ""
     temperature = 0
     bac = 0
@@ -75,9 +75,9 @@ class genPost:
         epoch_sec = time.time()
         epoch_sec_est = epoch_sec - 18000 #Remove 5 hours from the post times, to convert to EST (would be 14400 if it turns out to only need 4 hours)
         date = str(datetime.datetime.fromtimestamp(epoch_sec))
-        postID = len(os.listdir('/var/www/make2021/posts/')) + 1
+        graphID = len(os.listdir('/var/www/make2021/graphs/')) + 1
         self.date = date
-        self.postID = postID # Simply goes up by 1 every time we save a new post
+        self.graphID = graphID # Simply goes up by 1 every time we save a new graph
 
     #Now, make the graphs:
 
@@ -93,16 +93,16 @@ class genPost:
 
 
 #If the posts folder is not created yet, create it:
-if not os.path.exists('/var/www/make2021/posts/'):
-    os.mkdir('/var/www/make2021/posts/')
+if not os.path.exists('/var/www/make2021/graphs/'):
+    os.mkdir('/var/www/make2021/graphs/')
 
 #Generate a graph:
-post = genPost(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, accz_in, force_in)
+post = genGraph(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, accz_in, force_in)
 #Checks:
-#print(post.graph1) or something (not implemented yet)
+#print()
 
 #Save the post:
-save_post(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
+save_graph(post, '/var/www/make2021/graphs/post'+str(post.postID)+'.json')
 
 
 
