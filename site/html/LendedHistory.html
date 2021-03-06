@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+/* Header/logo Title */
+.header {
+  padding: 10px;
+  text-align: center;
+  background: #2e4057;
+  color: white;
+}
+
+/* Increase the font size of the heading */
+.header h1 {
+  font-size: 40px;
+}
+
+/* Style the top navigation bar */
+.navbar {
+  overflow: hidden;
+  background-color: #2f2d2e;
+}
+
+/* Style the navigation bar links */
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+button {
+  background-color: #2e4057;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  left: 50%;
+  cursor: pointer;
+  width: 20%;
+  opacity: 0.9;
+  border-radius:25px;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Change color on hover */
+.navbar a:hover {
+  background-color: white;
+  color: black;
+}
+
+input{
+  text-align:center;
+  align: center;
+  font-size: 15px;
+}
+
+/* Main column */
+.main {   
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid gray;
+}
+
+
+
+
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+  .row {   
+    flex-direction: column;
+  }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .navbar a {
+    float: none;
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Friendly Lends</h1>
+</div>
+
+<div class="navbar">
+  <a href="/hackathon2020/site/html/HomePage.html">Home</a>
+  <a href="/hackathon2020/site/html/LendedHistory.html">Your Lends</a>
+  <a href="/hackathon2020/site/html/PostedHistoryPage.html">Your Posts</a>
+  <a href="/hackathon2020/site/html/FollowingPage.html">Friends</a>
+  <a href="/hackathon2020/site/html/MakePostPage.html">Make a Post</a>
+</div>
+
+
+
+  <div class="main">
+  <p1 id = "username" style="text-align:left;">username</p1>
+    <p2 id = "interest amt" style="float:right;">interest amount</p2>
+    <br>
+    <div style = "text-align: center;">
+    <p3 id = "message content" class = "p3">message content</p3>
+    </div>
+    <br>
+    
+    <div style ="text-align:left;" >
+    <p5>Amount paid:</p5>
+    <p4 id = "amtpaid">amount you paid</p1>
+    <div style = "float:right">
+    <p6>Time since Loaned:</p6>
+    <p4 id = "time since paid" style="float:right">time since paid</p4>
+    </div>
+  
+ </div>
+  </div>
+  
+
+  
+  </script>
+
+
+</body>
+</html>
