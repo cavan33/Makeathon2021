@@ -8,7 +8,7 @@ import datetime
 import json
 #import pickle
 #import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 #NOTE that "post" now basically refers to an "instance" of the form sending data in, plus the graph that is made from that data (with times).
 
@@ -22,16 +22,21 @@ if "temp1" not in form:
 
 print("Content-Type: text/html\n\n")
 
+def check_for_field(form, field):
+    if (len(form[field].value) != 0):
+        return form[field].value
+    else:
+        return "Not specified"
 
-#A check: print("Hello " + form['username'].value)
-name_in = form['name'].value
-temperature_in = form['temp1'].value
-bac_in = form['bac'].value
-humidity_in = form['humidity'].value
-accx_in = form['accx'].value
-accy_in = form['accy'].value
-accz_in = form['accz'].value
-force_in = form['force'].value
+
+name_in = check_for_field(form,'name')
+temperature_in = check_for_field(form,'temp1')
+bac_in = check_for_field(form,'bac')
+humidity_in = check_for_field(form,'humidity')
+accx_in = check_for_field(form,'accx')
+accy_in = check_for_field(form,'accy')
+accz_in = check_for_field(form,'accz')
+force_in = check_for_field(form,'force')
 
 
 #Define the mechanism to save a post's data (but not its graphs/images) to a text file:
@@ -78,49 +83,45 @@ class genPost:
         postID = len(os.listdir('/var/www/make2021/posts/')) + 1
         self.date = date
         self.postID = postID # Simply goes up by 1 every time we save a new post
-
     """
     #Now, make the graphs:
     #Temperature graph:
-    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis
+    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
+    fname = []
     temperatures = []
+    for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
+        fname[i-1] = '/var/www/make2021/posts/post'+i+'.json'
+        temperatures[i-1] = fname[i-1]['temperature']
+    temperatures.append(temperature) # This is the final observation we just got, but haven't yet saved using savepostdata
 
 
-    # Initialize a figure with one subplot
+    # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
 
-    #Plot, as described in the problem statement:
-    ax.plot(counts, 'ok', label='Counts', markersize = 4)
+    #Plot measurement # vs temperature:
+    ax.plot(measurements, temperatures, 'ok-', label='Temperature (F)', markersize = 4)
 
     #Title, Labels, and Legend
-    ax.set_title('V404 Cyg Measured Counts')
+    ax.set_title('Temperature Readings (F)')
     ax.set_xlabel('Observation Number')
-    ax.set_ylabel('Counts per second')
+    ax.set_ylabel('Temperature')
     plt.legend(loc='upper right')
+    tempgraphfname = '/var/www/make2021/posts/post'+str(post.postID)+'temperaturegraph.pdf'
+    plt.savefig(tempgraphfname)
     """
-
-
-
-
-
-
 
 
 #If the posts folder is not created yet, create it:
 if not os.path.exists('/var/www/make2021/posts/'):
     os.mkdir('/var/www/make2021/posts/')
 
-#Generate a graph:
+#Generate a post:
 post = genPost(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, accz_in, force_in)
 #Checks:
-#print(post.graph1) or something (not implemented yet)
+#print('/var/www/make2021/posts/post1temperaturegraph.pdf') # Might work now?
 
-#Save each graph from the post:
+#Save the post data (a text file, separate from the graphs):
 save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
-#Later, it'll be saving PNGs
-
-
-
 
 
 
