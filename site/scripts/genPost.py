@@ -8,7 +8,7 @@ import datetime
 import json
 #import pickle
 #import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 #NOTE that "post" now basically refers to an "instance" of the form sending data in, plus the graph that is made from that data (with times).
 
@@ -16,7 +16,7 @@ cgitb.enable()
 
 form = cgi.FieldStorage()
 #The line below says to quit if we don't receive the bare minimum:
-if "name" not in form:
+if "temp1" not in form:
     print("Content-Type: text/html\n\n")
     sys.exit(0)
 
@@ -25,7 +25,7 @@ print("Content-Type: text/html\n\n")
 
 #A check: print("Hello " + form['username'].value)
 name_in = form['name'].value
-temperature_in = form['temperature'].value
+temperature_in = form['temp1'].value
 bac_in = form['bac'].value
 humidity_in = form['humidity'].value
 accx_in = form['accx'].value
@@ -34,8 +34,8 @@ accz_in = form['accz'].value
 force_in = form['force'].value
 
 
-#Define the mechanism to save the sent-in data to multiple files, each the name of a graph:
-def save_postdata(post, filename): #Long-term, it'll be 'filenames'
+#Define the mechanism to save a post's data (but not its graphs/images) to a text file:
+def save_postdata(post, filename):
     data = {}
     data['name'] = post.name
     data['temperature'] = post.temperature
@@ -47,10 +47,9 @@ def save_postdata(post, filename): #Long-term, it'll be 'filenames'
     data['force'] = post.force
     print(data)
     with open(filename, 'w') as outfile:  # Overwrites any existing file.
-        json.dump("Example text for temporary text post!", outfile, sort_keys = True)
-    #Later: for filename in filenames
+        json.dump(data, outfile, sort_keys = True)
 
-#Class to generate a post, with a bunch of graphs plus and some data:
+#Class to generate a post, with a bunch of graphs/images plus some of the data that went in to making the graphs:
 class genPost:
     name = ""
     temperature = 0
@@ -80,11 +79,25 @@ class genPost:
         self.date = date
         self.postID = postID # Simply goes up by 1 every time we save a new post
 
+    """
     #Now, make the graphs:
+    #Temperature graph:
+    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis
+    temperatures = []
 
 
+    # Initialize a figure with one subplot
+    fig, ax = plt.subplots()
 
+    #Plot, as described in the problem statement:
+    ax.plot(counts, 'ok', label='Counts', markersize = 4)
 
+    #Title, Labels, and Legend
+    ax.set_title('V404 Cyg Measured Counts')
+    ax.set_xlabel('Observation Number')
+    ax.set_ylabel('Counts per second')
+    plt.legend(loc='upper right')
+    """
 
 
 

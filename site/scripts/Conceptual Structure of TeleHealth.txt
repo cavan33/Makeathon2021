@@ -6,4 +6,4 @@ Humidity
 Acceleration (x,y,z, so 3 separate variables)
 Force
 
-Display as a day-to-day image (PNG?)
+Display each graph as a day-to-day image (PNG?)
