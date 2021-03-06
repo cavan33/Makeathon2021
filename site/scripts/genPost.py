@@ -23,7 +23,7 @@ if "temp1" not in form:
 print("Content-Type: text/html\n\n")
 
 def check_for_field(form, field):
-    if (len(form[field].value) != 0):
+    if (field in form.keys()):
         return form[field].value
     else:
         return "Not specified"
