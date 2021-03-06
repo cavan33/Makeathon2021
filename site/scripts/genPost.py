@@ -34,8 +34,8 @@ accz_in = form['accz'].value
 force_in = form['force'].value
 
 
-#Define the mechanism to save the sent-in data to a file:
-def save_postdata(post, filename):
+#Define the mechanism to save the sent-in data to multiple files, each the name of a graph:
+def save_postdata(post, filename): #Long-term, it'll be 'filenames'
     data = {}
     data['name'] = post.name
     data['temperature'] = post.temperature
@@ -47,7 +47,8 @@ def save_postdata(post, filename):
     data['force'] = post.force
     print(data)
     with open(filename, 'w') as outfile:  # Overwrites any existing file.
-        json.dump(data, outfile, sort_keys = True)
+        json.dump("Example text for temporary text post!", outfile, sort_keys = True)
+    #Later: for filename in filenames
 
 #Class to generate a post, with a bunch of graphs plus and some data:
 class genPost:
@@ -101,22 +102,26 @@ post = genPost(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, a
 #Checks:
 #print(post.graph1) or something (not implemented yet)
 
-#Save the post:
-save_post(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
+#Save each graph from the post:
+save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
+#Later, it'll be saving PNGs
 
 
 
 
-#Originally from a different file: get all the data from all-time in order to make the graph of all times.
-loans = []
-file1 = open('/var/www/hack2020/'+username+'/'+'loans_Received.txt', 'r')
-lines = file1.readlines()
-for line in lines:
-    loans.append(json.loads(line))
-amt_money = sum([float(d['amt_money']) for d in loans])
-monthly_amt_owed = sum([float(d['intervalPay']) for d in loans])
-total_amt_owed = sum([float(d['totalOwed']) for d in loans])
-print(amt_money)
-print(monthly_amt_owed)
-print(total_amt_owed)
+
+
+
+##Originally from a different file: get all the data from all-time in order to make the graph of all times.
+#loans = []
+#file1 = open('/var/www/hack2020/'+username+'/'+'loans_Received.txt', 'r')
+#lines = file1.readlines()
+#for line in lines:
+#    loans.append(json.loads(line))
+#amt_money = sum([float(d['amt_money']) for d in loans])
+#monthly_amt_owed = sum([float(d['intervalPay']) for d in loans])
+#total_amt_owed = sum([float(d['totalOwed']) for d in loans])
+#print(amt_money)
+#print(monthly_amt_owed)
+#print(total_amt_owed)
 
