@@ -30,12 +30,10 @@ def check_for_field(form, field):
 
 
 name_in = check_for_field(form,'name')
-temperature_in = check_for_field(form,'temp1')
+temperature_in = check_for_field(form,'temperature')
 bac_in = check_for_field(form,'bac')
 humidity_in = check_for_field(form,'humidity')
-accx_in = check_for_field(form,'accx')
-accy_in = check_for_field(form,'accy')
-accz_in = check_for_field(form,'accz')
+acc_in = check_for_field(form,'acc')
 force_in = check_for_field(form,'force')
 
 
@@ -46,9 +44,7 @@ def save_postdata(post, filename):
     data['temperature'] = post.temperature
     data['bac'] = post.bac
     data['humidity'] = post.humidity
-    data['accx'] = post.accx
-    data['accy'] = post.accy
-    data['accz'] = post.accz
+    data['acc'] = post.acc
     data['force'] = post.force
     print(data)
     with open(filename, 'w') as outfile:  # Overwrites any existing file.
@@ -60,9 +56,7 @@ class genPost:
     temperature = 0
     bac = 0
     humidity = 0
-    accx = 0
-    accy = 0
-    accz = 0
+    acc = 0
     force = 0
     date = ""
     epoch_sec = 0
@@ -72,9 +66,7 @@ class genPost:
         self.temperature = temperature
         self.bac = bac
         self.humidity = humidity
-        self.accx = accx
-        self.accy = accy
-        self.accz = accz
+        self.acc = acc
         self.force = force
         #Get the time (since epoch) that we ran this script/instantiated this class, and then turn this into a "date posted" string:
         epoch_sec = time.time()
@@ -83,33 +75,35 @@ class genPost:
         postID = len(os.listdir('/var/www/make2021/posts/')) + 1
         self.date = date
         self.postID = postID # Simply goes up by 1 every time we save a new post
-    """
-    #Now, make the graphs:
-    #Temperature graph:
-    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
-    fname = []
-    temperatures = []
-    for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
-        fname[i-1] = '/var/www/make2021/posts/post'+i+'.json'
-        temperatures[i-1] = fname[i-1]['temperature']
-    temperatures.append(temperature) # This is the final observation we just got, but haven't yet saved using savepostdata
+    
+        """
+        #Now, make the graphs:
+        #Temperature graph:
+        measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
+        fname = []
+        temperatures = []
+        for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
+            fname[i-1] = '/var/www/make2021/posts/post'+i+'.json'
+            temperatures[i-1] = fname[i-1]['temperature']
+        temperatures.append(temperature) # This is the final observation we just got, but haven't yet saved using savepostdata
 
 
-    # Initialize a figure (with one subplot)
-    fig, ax = plt.subplots()
+        # Initialize a figure (with one subplot)
+        fig, ax = plt.subplots()
 
-    #Plot measurement # vs temperature:
-    ax.plot(measurements, temperatures, 'ok-', label='Temperature (F)', markersize = 4)
+        #Plot measurement # vs temperature:
+        ax.plot(measurements, temperatures, 'ok-', label='Temperature (F)', markersize = 4)
 
-    #Title, Labels, and Legend
-    ax.set_title('Temperature Readings (F)')
-    ax.set_xlabel('Observation Number')
-    ax.set_ylabel('Temperature')
-    plt.legend(loc='upper right')
-    tempgraphfname = '/var/www/make2021/posts/post'+str(post.postID)+'temperaturegraph.pdf'
-    plt.savefig(tempgraphfname)
-    """
+        #Title, Labels, and Legend
+        ax.set_title('Temperature Readings (F)')
+        ax.set_xlabel('Observation Number')
+        ax.set_ylabel('Temperature')
+        plt.legend(loc='upper right')
+        tempgraphfname = '/var/www/make2021/posts/post'+str(post.postID)+'temperaturegraph.pdf'
+        plt.savefig(tempgraphfname)
+        """
 
+   
 
 #If the posts folder is not created yet, create it:
 if not os.path.exists('/var/www/make2021/posts/'):
@@ -117,13 +111,61 @@ if not os.path.exists('/var/www/make2021/posts/'):
 
 #Generate a post:
 post = genPost(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, accz_in, force_in)
-#Checks:
-#print('/var/www/make2021/posts/post1temperaturegraph.pdf') # Might work now?
 
 #Save the post data (a text file, separate from the graphs):
 save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
 
 
+ def makeGraph(field):
+    """
+    Plots all values (x-axis = measurement number) of a certain inputted field (on the y-axis), and saves the figure as a PDF.
+    """
+    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
+    fnames = []
+    y = []
+    for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
+        fnames[i-1] = '/var/www/make2021/posts/post'+i+'.json'
+        y[i-1] = fnames[i-1][field]
+
+    # Initialize a figure (with one subplot)
+    fig, ax = plt.subplots()
+
+    #Plot:
+    if field == 'temperature':
+        ax.plot(measurements, y, 'ok-', label=post.name, markersize = 4)
+        ax.set_title('Temperature Readings')
+        ax.set_ylabel('Temperature (F)')
+    elif field == 'bac':
+        ax.plot(measurements, y, 'ob-', label=post.name, markersize = 4)
+        ax.set_title('Blood-Alcohol Content Readings')
+        ax.set_ylabel('BAC')
+    elif field == 'humidity':
+        ax.plot(measurements, y, 'ro-', label=post.name, markersize = 4)
+        ax.set_title('Humidity Readings')
+        ax.set_ylabel('Humidity (%)')
+    elif field == 'acc':
+        ax.plot(measurements, y, 'om-', label=post.name, markersize = 4)
+        ax.set_title('Acceleration Scores')
+        ax.set_ylabel('Acceleration (Score, 0-100)') # This likely needs to be edited later
+    elif field == 'force':
+        ax.plot(measurements, y, 'og-', label=post.name, markersize = 4)
+        ax.set_title('Force Readings')
+        ax.set_ylabel('Force (N)')
+
+    ax.set_xlabel('Observation Number')
+    plt.legend() # Maybe (loc='upper right')?
+    graphfname = '/var/www/make2021/posts/post'+str(post.postID)+field+'graph.pdf'
+    plt.savefig(graphfname)
+
+
+makeGraph('temperature')
+#Later:
+"""
+makeGraph('bac')
+makeGraph('humidity')
+makeGraph('acc')
+makeGraph('force')
+"""
 
 
 ##Originally from a different file: get all the data from all-time in order to make the graph of all times.
