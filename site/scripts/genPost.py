@@ -127,8 +127,8 @@ def makeGraph(field):
     ax.set_xlabel('Observation Number')
     if post.name != "Not specified":
         plt.legend() # Maybe (loc='upper right')?
-        
-    graphfname = '/var/www/html/Makeathon2021/site/html/post'+str(post.postID)+'/'+field+'graph.pdf'
+
+    graphfname = '/var/www/html/Makeathon2021/site/html/post'+str(post.postID)+field+'graph.pdf'
     # = '/var/www/make2021/posts/post'+str(post.postID)+'/'+field+'graph.pdf'
     plt.savefig(graphfname)
 
