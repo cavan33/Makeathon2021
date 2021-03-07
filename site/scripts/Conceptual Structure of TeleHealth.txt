@@ -1,12 +1,12 @@
 Inputs:
-Name of Person
-Temperature
-Blood-Alcohol Content
-Humidity
-Acceleration (x,y,z, so 3 separate variables)
-Force
+Name of Person -> name
+Temperature -> temperature
+"Blood-Alcohol Content" -> gas
+Humidity -> humidity
+"Acceleration" (x,y,z, so 3 separate variables) -> acc (reaction test)
+Force -> force
 
-Display each graph as a day-to-day image (PNG?)
+Display each graph as a day-to-day image (PDF)
 
 
-enable to ground, a0 -> analgo
+enable to ground, a0 -> analog

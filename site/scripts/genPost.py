@@ -117,12 +117,12 @@ def makeGraph(field):
         ax.set_ylabel('Humidity (%)')
     elif field == 'acc':
         ax.plot(measurements, y, 'om-', label=label, markersize = 4);
-        ax.set_title('Acceleration Scores')
-        ax.set_ylabel('Acceleration (Score, 0-100)') # This likely needs to be edited later
+        ax.set_title('Reaction Time (Average)')
+        ax.set_ylabel('Time (ms)') # This likely needs to be edited later
     elif field == 'force':
         ax.plot(measurements, y, 'og-', label=label, markersize = 4);
         ax.set_title('Force Readings')
-        ax.set_ylabel('Force (N)')
+        ax.set_ylabel('Force (lbs)')
 
     ax.set_xlabel('Observation Number')
     if post.name != "Not specified":
