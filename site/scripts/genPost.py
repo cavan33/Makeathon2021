@@ -100,10 +100,7 @@ def makeGraph(field):
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
-    if post.name != "Not specified":
-        label = 'Data'
-    else:
-        label = post.name+"'s Data"
+    label = post.name+"'s Data"
 
     #Plot:
     if field == 'temperature':
@@ -128,8 +125,11 @@ def makeGraph(field):
         ax.set_ylabel('Force (N)')
 
     ax.set_xlabel('Observation Number')
-    plt.legend() # Maybe (loc='upper right')?
-    graphfname = '/var/www/make2021/posts/post'+str(post.postID)+'/'+field+'graph.pdf'
+    if post.name != "Not specified":
+        plt.legend() # Maybe (loc='upper right')?
+        
+    graphfname = '/var/www/html/Makeathon2021/site/html/post'+str(post.postID)+'/'+field+'graph.pdf'
+    # = '/var/www/make2021/posts/post'+str(post.postID)+'/'+field+'graph.pdf'
     plt.savefig(graphfname)
 
 
