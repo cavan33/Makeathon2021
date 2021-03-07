@@ -91,13 +91,13 @@ def makeGraph(field):
     """
     measurements = range(1, len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
     fnames = [None]*len(os.listdir('/var/www/make2021/posts/'))
-    y = [None]*len(os.listdir('/var/www/make2021/posts/'))
+    y = []
     for i in measurements: 
         fnames[i-1] = '/var/www/make2021/posts/post'+str(i)+'/data.json'
         with open(fnames[i-1]) as f:
               data = json.load(f)
         if(data[field] != "Not specified"):
-            y[i-1] = float(data[field])
+            y.append(float(data[field]))
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
