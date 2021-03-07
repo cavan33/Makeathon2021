@@ -89,8 +89,8 @@ def makeGraph(field):
     Plots all values (x-axis = measurement number) of a certain inputted field (on the y-axis), and saves the figure as a PDF.
     """
     measurements = range(1, len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
-    fnames = []
-    y = []
+    fnames = [None]*len(os.listdir('/var/www/make2021/posts/'))
+    y = [None]*len(os.listdir('/var/www/make2021/posts/'))
     for i in measurements: 
         fnames[i-1] = '/var/www/make2021/posts/post'+str(i)+'/data.json'
         with open(fnames[i-1]) as f:
