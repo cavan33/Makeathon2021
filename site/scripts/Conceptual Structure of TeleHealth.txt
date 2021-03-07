@@ -7,3 +7,6 @@ Acceleration (x,y,z, so 3 separate variables)
 Force
 
 Display each graph as a day-to-day image (PNG?)
+
+
+enable to ground, a0 -> analgo

@@ -16,7 +16,7 @@ cgitb.enable()
 
 form = cgi.FieldStorage()
 #The line below says to quit if we don't receive the bare minimum:
-if "temp1" not in form:
+if "temperature" not in form:
     print("Content-Type: text/html\n\n")
     sys.exit(0)
 
@@ -31,7 +31,7 @@ def check_for_field(form, field):
 
 name_in = check_for_field(form,'name')
 temperature_in = check_for_field(form,'temperature')
-bac_in = check_for_field(form,'bac')
+gas_in = check_for_field(form,'gas')
 humidity_in = check_for_field(form,'humidity')
 acc_in = check_for_field(form,'acc')
 force_in = check_for_field(form,'force')
@@ -42,7 +42,7 @@ def save_postdata(post, filename):
     data = {}
     data['name'] = post.name
     data['temperature'] = post.temperature
-    data['bac'] = post.bac
+    data['gas'] = post.gas
     data['humidity'] = post.humidity
     data['acc'] = post.acc
     data['force'] = post.force
@@ -54,17 +54,17 @@ def save_postdata(post, filename):
 class genPost:
     name = ""
     temperature = 0
-    bac = 0
+    gas = 0
     humidity = 0
     acc = 0
     force = 0
     date = ""
     epoch_sec = 0
     
-    def __init__(self, name, temperature, bac, humidity, accx, accy, accz, force):
+    def __init__(self, name, temperature, gas, humidity, acc, force):
         self.name = name
         self.temperature = temperature
-        self.bac = bac
+        self.gas = gas
         self.humidity = humidity
         self.acc = acc
         self.force = force
@@ -110,7 +110,7 @@ if not os.path.exists('/var/www/make2021/posts/'):
     os.mkdir('/var/www/make2021/posts/')
 
 #Generate a post:
-post = genPost(name_in, temperature_in, bac_in, humidity_in, accx_in, accy_in, accz_in, force_in)
+post = genPost(name_in, temperature_in, gas_in, humidity_in, acc_in, force_in)
 
 #Save the post data (a text file, separate from the graphs):
 save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
@@ -135,10 +135,10 @@ save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
         ax.plot(measurements, y, 'ok-', label=post.name, markersize = 4)
         ax.set_title('Temperature Readings')
         ax.set_ylabel('Temperature (F)')
-    elif field == 'bac':
+    elif field == 'gas':
         ax.plot(measurements, y, 'ob-', label=post.name, markersize = 4)
-        ax.set_title('Blood-Alcohol Content Readings')
-        ax.set_ylabel('BAC')
+        ax.set_title('Gas (Alcohol) Readings')
+        ax.set_ylabel('Gas Conc. (ppm)')
     elif field == 'humidity':
         ax.plot(measurements, y, 'ro-', label=post.name, markersize = 4)
         ax.set_title('Humidity Readings')
@@ -161,23 +161,9 @@ save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
 makeGraph('temperature')
 #Later:
 """
-makeGraph('bac')
+makeGraph('gas')
 makeGraph('humidity')
 makeGraph('acc')
 makeGraph('force')
 """
-
-
-##Originally from a different file: get all the data from all-time in order to make the graph of all times.
-#loans = []
-#file1 = open('/var/www/hack2020/'+username+'/'+'loans_Received.txt', 'r')
-#lines = file1.readlines()
-#for line in lines:
-#    loans.append(json.loads(line))
-#amt_money = sum([float(d['amt_money']) for d in loans])
-#monthly_amt_owed = sum([float(d['intervalPay']) for d in loans])
-#total_amt_owed = sum([float(d['totalOwed']) for d in loans])
-#print(amt_money)
-#print(monthly_amt_owed)
-#print(total_amt_owed)
 
