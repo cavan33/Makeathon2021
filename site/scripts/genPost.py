@@ -15,10 +15,6 @@ import json
 cgitb.enable()
 
 form = cgi.FieldStorage()
-#The line below says to quit if we don't receive the bare minimum:
-if "temperature" not in form:
-    print("Content-Type: text/html\n\n")
-    sys.exit(0)
 
 print("Content-Type: text/html\n\n")
 
@@ -107,7 +103,7 @@ class genPost:
 
 #If the post's folder is not created yet, create it:
 if not os.path.exists('/var/www/make2021/posts/post'+str(post.postID)+'/'):
-    os.mkdir('/var/www/make2021/posts/'+str(post.postID)+'/')
+    os.mkdir('/var/www/make2021/posts/post'+str(post.postID)+'/')
 
 #Generate a post:
 post = genPost(name_in, temperature_in, gas_in, humidity_in, acc_in, force_in)
