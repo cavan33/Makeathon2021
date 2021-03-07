@@ -92,12 +92,16 @@ def makeGraph(field):
     measurements = range(1, len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
     fnames = [None]*len(os.listdir('/var/www/make2021/posts/'))
     y = []
+    x = []
+    cnt = 1
     for i in measurements: 
         fnames[i-1] = '/var/www/make2021/posts/post'+str(i)+'/data.json'
         with open(fnames[i-1]) as f:
               data = json.load(f)
         if(data[field] != "Not specified"):
             y.append(float(data[field]))
+            x.append(cnt)
+            cnt = cnt + 1
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
@@ -105,23 +109,23 @@ def makeGraph(field):
 
     #Plot:
     if field == 'temperature':
-        ax.plot(measurements, y, 'ok-', label=label, markersize = 4);
+        ax.plot(x, y, 'ok-', label=label, markersize = 4);
         ax.set_title('Temperature Readings')
         ax.set_ylabel('Temperature (F)')
     elif field == 'gas':
-        ax.plot(measurements, y, 'ob-', label=label, markersize = 4);
+        ax.plot(x, y, 'ob-', label=label, markersize = 4);
         ax.set_title('Gas (Alcohol) Readings')
         ax.set_ylabel('Gas Conc. (ppm)')
     elif field == 'humidity':
-        ax.plot(measurements, y, 'ro-', label=label, markersize = 4);
+        ax.plot(x, y, 'ro-', label=label, markersize = 4);
         ax.set_title('Humidity Readings')
         ax.set_ylabel('Humidity (%)')
     elif field == 'acc':
-        ax.plot(measurements, y, 'om-', label=label, markersize = 4);
+        ax.plot(x, y, 'om-', label=label, markersize = 4);
         ax.set_title('Reaction Time (Average)')
         ax.set_ylabel('Time (ms)') # This likely needs to be edited later
     elif field == 'force':
-        ax.plot(measurements, y, 'og-', label=label, markersize = 4);
+        ax.plot(x, y, 'og-', label=label, markersize = 4);
         ax.set_title('Force/Weight Readings')
         ax.set_ylabel('Force (lbs)')
 
