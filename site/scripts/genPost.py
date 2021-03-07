@@ -99,14 +99,13 @@ class genPost:
         plt.savefig(tempgraphfname)
         """
 
-   
+
+#Generate a post:
+post = genPost(name_in, temperature_in, gas_in, humidity_in, acc_in, force_in)
 
 #If the post's folder is not created yet, create it:
 if not os.path.exists('/var/www/make2021/posts/post'+str(post.postID)+'/'):
     os.mkdir('/var/www/make2021/posts/post'+str(post.postID)+'/')
-
-#Generate a post:
-post = genPost(name_in, temperature_in, gas_in, humidity_in, acc_in, force_in)
 
 #Save the post data (a text file, separate from the graphs):
 save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'/data.json')
