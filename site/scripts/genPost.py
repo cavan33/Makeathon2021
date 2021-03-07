@@ -71,33 +71,6 @@ class genPost:
         postID = len(os.listdir('/var/www/make2021/posts/')) + 1
         self.date = date
         self.postID = postID # Simply goes up by 1 every time we save a new post
-    
-        """
-        #Now, make the graphs:
-        #Temperature graph:
-        measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
-        fname = []
-        temperatures = []
-        for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
-            fname[i-1] = '/var/www/make2021/posts/post'+i+'.json'
-            temperatures[i-1] = fname[i-1]['temperature']
-        temperatures.append(temperature) # This is the final observation we just got, but haven't yet saved using savepostdata
-
-
-        # Initialize a figure (with one subplot)
-        fig, ax = plt.subplots()
-
-        #Plot measurement # vs temperature:
-        ax.plot(measurements, temperatures, 'ok-', label='Temperature (F)', markersize = 4)
-
-        #Title, Labels, and Legend
-        ax.set_title('Temperature Readings (F)')
-        ax.set_xlabel('Observation Number')
-        ax.set_ylabel('Temperature')
-        plt.legend(loc='upper right')
-        tempgraphfname = '/var/www/make2021/posts/post'+str(post.postID)+'temperaturegraph.pdf'
-        plt.savefig(tempgraphfname)
-        """
 
 
 #Generate a post:
