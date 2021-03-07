@@ -120,7 +120,9 @@ def makeGraph(field):
     y = []
     for i in range(len(measurements)): 
         fnames[i-1] = '/var/www/make2021/posts/post'+i+'/data.json'
-        y[i-1] = fnames[i-1][field]
+        with open(fnames[i-1], 'r') as f:
+            data = f.read()
+        y[i-1] = data[field]
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
