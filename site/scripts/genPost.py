@@ -92,7 +92,7 @@ def makeGraph(field):
     fnames = []
     y = []
     for i in measurements: 
-        fnames[i-1] = '/var/www/make2021/posts/post'+i+'/data.json'
+        fnames[i-1] = '/var/www/make2021/posts/post'+str(i)+'/data.json'
         with open(fnames[i-1]) as f:
               data = json.load(f)
         y[i-1] = data[field]
