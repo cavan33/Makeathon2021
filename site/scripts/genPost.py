@@ -33,6 +33,7 @@ acc_in = check_for_field(form,'acc')
 force_in = check_for_field(form,'force')
 
 
+
 #Define the mechanism to save a post's data (but not its graphs/images) to a text file:
 def save_postdata(post, filename):
     data = {}
@@ -99,26 +100,30 @@ def makeGraph(field):
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
+    if post.name != "Not specified":
+        label = 'Data'
+    else:
+        label = post.name+"'s Data"
 
     #Plot:
     if field == 'temperature':
-        ax.plot(measurements, y, 'ok-', label=post.name, markersize = 4);
+        ax.plot(measurements, y, 'ok-', label=label, markersize = 4);
         ax.set_title('Temperature Readings')
         ax.set_ylabel('Temperature (F)')
     elif field == 'gas':
-        ax.plot(measurements, y, 'ob-', label=post.name, markersize = 4);
+        ax.plot(measurements, y, 'ob-', label=label, markersize = 4);
         ax.set_title('Gas (Alcohol) Readings')
         ax.set_ylabel('Gas Conc. (ppm)')
     elif field == 'humidity':
-        ax.plot(measurements, y, 'ro-', label=post.name, markersize = 4);
+        ax.plot(measurements, y, 'ro-', label=label, markersize = 4);
         ax.set_title('Humidity Readings')
         ax.set_ylabel('Humidity (%)')
     elif field == 'acc':
-        ax.plot(measurements, y, 'om-', label=post.name, markersize = 4);
+        ax.plot(measurements, y, 'om-', label=label, markersize = 4);
         ax.set_title('Acceleration Scores')
         ax.set_ylabel('Acceleration (Score, 0-100)') # This likely needs to be edited later
     elif field == 'force':
-        ax.plot(measurements, y, 'og-', label=post.name, markersize = 4);
+        ax.plot(measurements, y, 'og-', label=label, markersize = 4);
         ax.set_title('Force Readings')
         ax.set_ylabel('Force (N)')
 
