@@ -105,26 +105,26 @@ class genPost:
 
    
 
-#If the posts folder is not created yet, create it:
-if not os.path.exists('/var/www/make2021/posts/'):
-    os.mkdir('/var/www/make2021/posts/')
+#If the post's folder is not created yet, create it:
+if not os.path.exists('/var/www/make2021/posts/post'+str(post.postID)+'/'):
+    os.mkdir('/var/www/make2021/posts/'+str(post.postID)+'/')
 
 #Generate a post:
 post = genPost(name_in, temperature_in, gas_in, humidity_in, acc_in, force_in)
 
 #Save the post data (a text file, separate from the graphs):
-save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
+save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'/data.json')
 
 
- def makeGraph(field):
+def makeGraph(field):
     """
     Plots all values (x-axis = measurement number) of a certain inputted field (on the y-axis), and saves the figure as a PDF.
     """
     measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
     fnames = []
     y = []
-    for i in range(len(os.listdir('/var/www/make2021/posts/')) + 1): 
-        fnames[i-1] = '/var/www/make2021/posts/post'+i+'.json'
+    for i in range(len(measurements)): 
+        fnames[i-1] = '/var/www/make2021/posts/post'+i+'/data.json'
         y[i-1] = fnames[i-1][field]
 
     # Initialize a figure (with one subplot)
@@ -154,7 +154,7 @@ save_postdata(post, '/var/www/make2021/posts/post'+str(post.postID)+'.json')
 
     ax.set_xlabel('Observation Number')
     plt.legend() # Maybe (loc='upper right')?
-    graphfname = '/var/www/make2021/posts/post'+str(post.postID)+field+'graph.pdf'
+    graphfname = '/var/www/make2021/posts/post'+str(post.postID)+'/'+field+'graph.pdf'
     plt.savefig(graphfname)
 
 
