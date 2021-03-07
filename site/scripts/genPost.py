@@ -8,7 +8,7 @@ import datetime
 import json
 #import pickle
 #import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 #NOTE that "post" now basically refers to an "instance" of the form sending data in, plus the graph that is made from that data (with times).
 
@@ -115,13 +115,13 @@ def makeGraph(field):
     """
     Plots all values (x-axis = measurement number) of a certain inputted field (on the y-axis), and saves the figure as a PDF.
     """
-    measurements = range(len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
+    measurements = range(1, len(os.listdir('/var/www/make2021/posts/')) + 1) # x axis, + 1 because of our most recent, nonsaved observation
     fnames = []
     y = []
-    for i in range(len(measurements)): 
+    for i in measurements: 
         fnames[i-1] = '/var/www/make2021/posts/post'+i+'/data.json'
-        with open(fnames[i-1], 'r') as f:
-            data = f.read()
+        with open(fnames[i-1]) as f:
+              data = json.load(f)
         y[i-1] = data[field]
 
     # Initialize a figure (with one subplot)
