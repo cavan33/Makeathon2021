@@ -96,7 +96,8 @@ def makeGraph(field):
         fnames[i-1] = '/var/www/make2021/posts/post'+str(i)+'/data.json'
         with open(fnames[i-1]) as f:
               data = json.load(f)
-        y[i-1] = data[field]
+        if(data[field] != "Not specified"):
+            y[i-1] = float(data[field])
 
     # Initialize a figure (with one subplot)
     fig, ax = plt.subplots()
