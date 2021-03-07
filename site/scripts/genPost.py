@@ -121,7 +121,7 @@ def makeGraph(field):
         ax.set_ylabel('Time (ms)') # This likely needs to be edited later
     elif field == 'force':
         ax.plot(measurements, y, 'og-', label=label, markersize = 4);
-        ax.set_title('Force Readings')
+        ax.set_title('Force/Weight Readings')
         ax.set_ylabel('Force (lbs)')
 
     ax.set_xlabel('Observation Number')
@@ -137,5 +137,4 @@ makeGraph('temperature')
 makeGraph('gas')
 makeGraph('acc')
 makeGraph('force')
-"""
 
